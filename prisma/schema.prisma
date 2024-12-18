@@ -1,0 +1,412 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ECurrency {
+  KIP
+  USD
+  THB
+  CNY
+}
+
+enum EGender {
+  male
+  female
+  transgender
+}
+
+enum EUserRole {
+  company
+  admin
+  jobber
+}
+
+//-----------Account-----------------------------
+model Users {
+  id                      String                    @id @default(uuid()) @db.VarChar(36)
+  isActive                Boolean                   @default(true)
+  visible                 Boolean                   @default(true)
+  username                String
+  email                   String
+  phoneNumber             String
+  password                String
+  profile                 String?
+  blackground             String?
+  role                    EUserRole
+  block                   Boolean                   @default(false)
+  loginVersion            Int                       @default(1)
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  StudyCourse             StudyCourse[]
+  Facultys                Facultys[]
+  EducationalInstitutions EducationalInstitutions[]
+  Skills                  Skills[]
+  Languages               Languages[]
+  Jobber                  Jobber[]
+  EducationLevels         EducationLevels[]
+  SkillJobber             SkillJobber?
+  JobPositions            JobPositions[]
+  Companies               Companies?
+  BusinessModels          BusinessModels[]
+  TypeOrganinzations      TypeOrganinzations[]
+  followers               Follow[]                  @relation("UserFollowers")
+  following               Follow[]                  @relation("UserFollowing")
+  LikePost                LikePost[]
+}
+
+model Follow {
+  id             Int    @id @default(autoincrement())
+  userFollowerId String
+  userId         String
+  userFollower   Users  @relation("UserFollowers", fields: [userFollowerId], references: [id])
+  user           Users  @relation("UserFollowing", fields: [userId], references: [id])
+
+  @@unique([userFollowerId, userId])
+  @@map("follows")
+}
+
+//-----------------------------------------------
+model StudyCourse {
+  id              String            @id @default(uuid()) @db.VarChar(36)
+  isActive        Boolean           @default(true)
+  visible         Boolean           @default(false)
+  name            String
+  userId          String
+  user            Users             @relation(fields: [userId], references: [id])
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  SkillJobber     SkillJobber[]
+  PostStudyCourse PostStudyCourse[]
+}
+
+model Facultys {
+  id          String        @id @default(uuid()) @db.VarChar(36)
+  isActive    Boolean       @default(true)
+  visible     Boolean       @default(false)
+  name        String
+  userId      String
+  user        Users         @relation(fields: [userId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  SkillJobber SkillJobber[]
+  PostFacul   PostFacul[]
+}
+
+model EducationalInstitutions {
+  id                          String                        @id @default(uuid()) @db.VarChar(36)
+  isActive                    Boolean                       @default(true)
+  visible                     Boolean                       @default(false)
+  name                        String
+  userId                      String
+  user                        Users                         @relation(fields: [userId], references: [id])
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  SkillJobber                 SkillJobber[]
+  PostEducationalInstitutions PostEducationalInstitutions[]
+}
+
+model EducationLevels {
+  id          String        @id @default(uuid()) @db.VarChar(36)
+  isActive    Boolean       @default(true)
+  visible     Boolean       @default(false)
+  name        String
+  userId      String
+  user        Users         @relation(fields: [userId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  SkillJobber SkillJobber[]
+}
+
+model Skills {
+  id                            String                          @id @default(uuid()) @db.VarChar(36)
+  isActive                      Boolean                         @default(true)
+  visible                       Boolean                         @default(false)
+  name                          String
+  userId                        String
+  user                          Users                           @relation(fields: [userId], references: [id])
+  createdAt                     DateTime                        @default(now())
+  updatedAt                     DateTime                        @updatedAt
+  SkillJobberSkills             SkillJobberSkills[]
+  PostJobPositionsDetailsSkills PostJobPositionsDetailsSkills[]
+}
+
+model Languages {
+  id                  String                @id @default(uuid()) @db.VarChar(36)
+  isActive            Boolean               @default(true)
+  visible             Boolean               @default(false)
+  name                String
+  userId              String
+  user                Users                 @relation(fields: [userId], references: [id])
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  SkillJobberLanguage SkillJobberLanguage[]
+  PostLanguage        PostLanguage[]
+}
+
+model JobPositions {
+  id                      String                    @id @default(uuid()) @db.VarChar(36)
+  isActive                Boolean                   @default(true)
+  visible                 Boolean                   @default(false)
+  name                    String
+  userId                  String
+  user                    Users                     @relation(fields: [userId], references: [id])
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  SkillJobberJobPositions SkillJobberJobPositions[]
+  PostJobPositionsDetails PostJobPositionsDetails[]
+}
+
+model BusinessModels {
+  id        String      @id @default(uuid()) @db.VarChar(36)
+  isActive  Boolean     @default(true)
+  visible   Boolean     @default(false)
+  name      String
+  userId    String
+  user      Users       @relation(fields: [userId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  Companies Companies[]
+}
+
+model TypeOrganinzations {
+  id        String      @id @default(uuid()) @db.VarChar(36)
+  isActive  Boolean     @default(true)
+  visible   Boolean     @default(false)
+  name      String
+  userId    String
+  user      Users       @relation(fields: [userId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  Companies Companies[]
+}
+
+//-----------Jobber Role----------------------------------------------
+model Jobber {
+  id String @id @default(uuid()) @db.VarChar(36)
+
+  isVerify    Boolean  @default(false)
+  userId      String   @unique
+  user        Users    @relation(fields: [userId], references: [id])
+  gender      EGender
+  firstName   String
+  lastName    String
+  birthday    DateTime @db.Date
+  nationality String
+  ethnicity   String
+  religion    String
+  bProvice    String
+  bDistrict   String
+  bVillage    String
+  cProvice    String
+  cDistrict   String
+  cVillage    String
+  docImage    String[]
+  reason      String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SkillJobber {
+  id                      String                    @id @default(uuid()) @db.VarChar(36)
+  userId                  String                    @unique
+  elId                    String
+  eiId                    String
+  fId                     String
+  scId                    String
+  gpa                     Float
+  drivingCardType         String?
+  more                    String                    @db.Text
+  startSalary             Float?
+  currency                ECurrency                 @default(KIP)
+  workDay                 String[]
+  checkInTime             DateTime?                 @db.Time()
+  checkOutTime            DateTime?                 @db.Time()
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  educationLevels         EducationLevels           @relation(fields: [elId], references: [id])
+  eductaionalInstitutions EducationalInstitutions   @relation(fields: [eiId], references: [id])
+  facultys                Facultys                  @relation(fields: [fId], references: [id])
+  studyCourse             StudyCourse               @relation(fields: [scId], references: [id])
+  users                   Users                     @relation(fields: [userId], references: [id])
+  SkillJobberLanguage     SkillJobberLanguage[]
+  SkillJobberSkills       SkillJobberSkills[]
+  SkillJobberJobPositions SkillJobberJobPositions[]
+}
+
+model SkillJobberLanguage {
+  id           Int         @id @default(autoincrement())
+  sjId         String
+  lId          String
+  skillJobbers SkillJobber @relation(fields: [sjId], references: [id])
+  languages    Languages   @relation(fields: [lId], references: [id])
+
+  @@unique([sjId, lId])
+}
+
+model SkillJobberSkills {
+  id           Int         @id @default(autoincrement())
+  sjId         String
+  sId          String
+  skillJobbers SkillJobber @relation(fields: [sjId], references: [id])
+  skills       Skills      @relation(fields: [sId], references: [id])
+
+  @@unique([sjId, sId])
+}
+
+model SkillJobberJobPositions {
+  id           Int          @id @default(autoincrement())
+  sjId         String
+  jpId         String
+  skillJobbers SkillJobber  @relation(fields: [sjId], references: [id])
+  jobPositions JobPositions @relation(fields: [jpId], references: [id])
+
+  @@unique([jpId, sjId])
+}
+
+//------------------Companies----------------------------------------------------------------------
+model Companies {
+  id                   String             @id @default(uuid()) @db.VarChar(36)
+  isVerify             Boolean            @default(false)
+  userId               String             @unique
+  nameLao              String
+  nameEng              String
+  bmId                 String
+  headName             String?
+  toId                 String
+  intarnalOrganization String
+  cProvice             String
+  cDistrict            String
+  cVillage             String
+  street               String
+  docImage             String[]
+  reason               String?            @db.Text
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  users                Users              @relation(fields: [userId], references: [id])
+  businessModel        BusinessModels     @relation(fields: [bmId], references: [id])
+  typeOrganinzations   TypeOrganinzations @relation(fields: [toId], references: [id])
+  AboutCompany         AboutCompany[]
+  Posts                Posts[]
+}
+
+model AboutCompany {
+  id        String    @id @default(uuid()) @db.VarChar(36)
+  isActive  Boolean   @default(true)
+  visible   Boolean   @default(true)
+  cId       String
+  title     String
+  detail    String    @db.Text
+  images    String[]
+  companies Companies @relation(fields: [cId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+//-----------------Posts Companies------------------------------------------------
+model Posts {
+  id                          String                        @id @default(uuid()) @db.VarChar(36)
+  isActive                    Boolean                       @default(true)
+  visible                     Boolean                       @default(true)
+  cId                         String
+  title                       String                        @db.Text
+  images                      String[]
+  endDate                     DateTime?
+  startSalary                 Float?
+  endSalary                   Float?
+  currency                    ECurrency                     @default(KIP)
+  workDay                     String[]
+  checkInTime                 DateTime                      @db.Time()
+  checkOutTime                DateTime                      @db.Time()
+  gpa                         Float
+  welfare                     String                        @db.Text
+  more                        String                        @db.Text
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  companies                   Companies                     @relation(fields: [cId], references: [id])
+  PostLanguage                PostLanguage[]
+  PostStudyCourse             PostStudyCourse[]
+  PostEducationalInstitutions PostEducationalInstitutions[]
+  PostFacul                   PostFacul[]
+  PostJobPositionsDetails     PostJobPositionsDetails[]
+  LikePost                    LikePost[]
+}
+
+model PostLanguage {
+  id        Int       @id @default(autoincrement())
+  pId       String
+  lId       String
+  post      Posts     @relation(fields: [pId], references: [id])
+  languages Languages @relation(fields: [lId], references: [id])
+
+  @@unique([pId, lId])
+}
+
+model PostStudyCourse {
+  id          Int         @id @default(autoincrement())
+  pId         String
+  scId        String
+  post        Posts       @relation(fields: [pId], references: [id])
+  studyCourse StudyCourse @relation(fields: [scId], references: [id])
+
+  @@unique([pId, scId])
+}
+
+model PostEducationalInstitutions {
+  id                     Int                     @id @default(autoincrement())
+  pId                    String
+  eiId                   String
+  post                   Posts                   @relation(fields: [pId], references: [id])
+  educatinalInstitutions EducationalInstitutions @relation(fields: [eiId], references: [id])
+
+  @@unique([eiId, pId])
+}
+
+model PostFacul {
+  id      Int      @id @default(autoincrement())
+  pId     String
+  fcId    String
+  post    Posts    @relation(fields: [pId], references: [id])
+  faculty Facultys @relation(fields: [fcId], references: [id])
+
+  @@unique([pId, fcId])
+}
+
+model PostJobPositionsDetails {
+  id                            Int                             @id @default(autoincrement())
+  pId                           String
+  jpId                          String
+  post                          Posts                           @relation(fields: [pId], references: [id])
+  jobPosition                   JobPositions                    @relation(fields: [jpId], references: [id])
+  amount                        Int                             @default(1)
+  detail                        String                          @db.Text
+  PostJobPositionsDetailsSkills PostJobPositionsDetailsSkills[]
+}
+
+model PostJobPositionsDetailsSkills {
+  id                      Int                     @id @default(autoincrement())
+  sId                     String
+  pjpId                   Int
+  skills                  Skills                  @relation(fields: [sId], references: [id])
+  postJobPositionsDetails PostJobPositionsDetails @relation(fields: [pjpId], references: [id])
+
+  @@unique([pjpId, sId])
+}
+
+model LikePost {
+  id     Int    @id @default(autoincrement())
+  userId String
+  pId    String
+  users  Users  @relation(fields: [userId], references: [id])
+  posts  Posts  @relation(fields: [pId], references: [id])
+}

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "SkillJobber" ALTER COLUMN "drivingCardType" DROP NOT NULL,
+ALTER COLUMN "starSalary" DROP NOT NULL,
+ALTER COLUMN "checkInTime" DROP NOT NULL,
+ALTER COLUMN "checkOutTime" DROP NOT NULL;
