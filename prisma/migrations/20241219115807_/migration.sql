@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Posts" ALTER COLUMN "gpa" DROP NOT NULL;

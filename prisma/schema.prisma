@@ -100,7 +100,8 @@ model Facultys {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   SkillJobber SkillJobber[]
-  PostFacul   PostFacul[]
+
+  PostFacultys PostFacultys[]
 }
 
 model EducationalInstitutions {
@@ -337,9 +338,9 @@ model Posts {
   PostLanguage                PostLanguage[]
   PostStudyCourse             PostStudyCourse[]
   PostEducationalInstitutions PostEducationalInstitutions[]
-  PostFacul                   PostFacul[]
   PostJobPositionsDetails     PostJobPositionsDetails[]
   LikePost                    LikePost[]
+  PostFacultys                PostFacultys[]
 }
 
 model PostLanguage {
@@ -372,25 +373,27 @@ model PostEducationalInstitutions {
   @@unique([eiId, pId])
 }
 
-model PostFacul {
+model PostFacultys {
   id      Int      @id @default(autoincrement())
   pId     String
-  fcId    String
+  fId     String
   post    Posts    @relation(fields: [pId], references: [id])
-  faculty Facultys @relation(fields: [fcId], references: [id])
+  faculty Facultys @relation(fields: [fId], references: [id])
 
-  @@unique([pId, fcId])
+  @@unique([pId, fId])
 }
 
 model PostJobPositionsDetails {
   id                            Int                             @id @default(autoincrement())
   pId                           String
   jpId                          String
-  post                          Posts                           @relation(fields: [pId], references: [id])
-  jobPosition                   JobPositions                    @relation(fields: [jpId], references: [id])
   amount                        Int                             @default(1)
   detail                        String                          @db.Text
+  post                          Posts                           @relation(fields: [pId], references: [id])
+  jobPosition                   JobPositions                    @relation(fields: [jpId], references: [id])
   PostJobPositionsDetailsSkills PostJobPositionsDetailsSkills[]
+
+  @@unique([pId, jpId])
 }
 
 model PostJobPositionsDetailsSkills {
@@ -398,7 +401,7 @@ model PostJobPositionsDetailsSkills {
   sId                     String
   pjpId                   Int
   skills                  Skills                  @relation(fields: [sId], references: [id])
-  postJobPositionsDetails PostJobPositionsDetails @relation(fields: [pjpId], references: [id])
+  postJobPositionsDetails PostJobPositionsDetails @relation(fields: [pjpId], references: [id], onDelete: Cascade)
 
   @@unique([pjpId, sId])
 }
