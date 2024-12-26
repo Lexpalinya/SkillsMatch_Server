@@ -15,6 +15,7 @@ export type TPostsCreateBodyDTU = Omit<
   | "endSalary"
   | "endDate"
 > & {
+  gpa?: string | number;
   endDate?: string;
   images?: File[];
   startSalary?: string | number;
@@ -23,10 +24,10 @@ export type TPostsCreateBodyDTU = Omit<
   studyCourses: string | string[];
   educationalInstitutions: string | string[];
   facultys: string | string[];
-  jobpositionsDetails: string | TJobPositionsDetails;
+  jobpositionsDetails: string | TJobPositionsDetails[];
 };
 
-type TJobPositionsDetails = {
+export type TJobPositionsDetails = {
   jpId: string;
   amount: number;
   detail: string;
@@ -35,12 +36,19 @@ type TJobPositionsDetails = {
 
 export type TPostCreateDTU = Omit<
   TPostsDTU,
-  "id" | "isActive" | "visivle" | "createdAt" | "updatedAt"
+  | "id"
+  | "isActive"
+  | "visible"
+  | "createdAt"
+  | "updatedAt"
+  | "startSalary"
+  | "endSalary"
+  | "endDate"
 > & {
-  startSalary?: number;
-  endSalary?: number;
-  endDate?: string;
-  images?: string;
+  startSalary: number | null;
+  endSalary: number | null;
+  endDate: Date | null;
+  images: string[];
 };
 
 export type TPostUpdaateDTU = Partial<Omit<TPostCreateDTU, "images">>;

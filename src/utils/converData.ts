@@ -1,4 +1,3 @@
-
 export const converStringToBoolean = (
   data: string | boolean | undefined
 ): boolean | undefined =>
@@ -7,5 +6,5 @@ export const converStringToBoolean = (
 export const converStringToFloat = (data: string | number): number =>
   typeof data === "string" ? parseFloat(data) : data;
 
-export const converStringToArray = (data: string | string[]) =>
+export const converStringToArray = <T>(data: string | T[]) =>
   typeof data === "string" ? JSON.parse(data) : data;

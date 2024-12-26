@@ -38,11 +38,27 @@ export const AddIdObjectInArray = (data: string, arr: any[], key: string) => {
   return result; // Return the array of constructed objects.
 };
 
+export const AddIdObjectInArrayPosts = (
+  data: string,
+  arr: any[],
+  key: string
+) => {
+  const result: any[] = []; // Initialize an empty array to store the constructed objects.
+
+  arr.forEach((element) => {
+    const obj: any = { pId: data }; // Create an object with the fixed key `sjId` and its value.
+    obj[key] = element; // Dynamically assign the value to the specified key.
+    result.push(obj); // Add the object to the result array.
+  });
+
+  return result; // Return the array of constructed objects.
+};
+
 /**
  * Deduplicates an array to ensure only unique values are used.
  * @param arr - The input array with potential duplicates.
  * @returns An array with unique values.
  */
-export const DeduplicateArray = (arr: any[]): any[] => {
+export const DeduplicateArray = <T>(arr: T[]): T[] => {
   return Array.from(new Set(arr));
 };

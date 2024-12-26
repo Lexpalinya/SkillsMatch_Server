@@ -7,7 +7,7 @@ import { PrismaClient } from "@prisma/client";
 import prisma from "../../../DB/prismaClient";
 import { CacheData, RemoveCache } from "../../../utils/cache.control";
 
-export class PostJobPositionsDetailsService {
+export class PostsJobPositionsDetailsService {
   private keys: string;
   private model: keyof PrismaClient;
   private prisma: PrismaClient;
