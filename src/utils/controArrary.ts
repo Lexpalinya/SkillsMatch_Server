@@ -21,16 +21,17 @@ export const AddDataInArray = (data: string, arr: string[]) => {
 
 /**
  * Constructs an array of objects, each containing a specified key-value pair and additional data.
- * @param data - The value to associate with the `sjId` key in each object.
+ * @param idKey - The key for the ID value.
+ * @param idValue - The value to associate with the ID key in each object.
  * @param arr - The array whose elements will be added as values for the specified key.
  * @param key - The key to which each array element will be assigned in the objects.
- * @returns An array of objects, each including `sjId` and the dynamically added key-value pair.
+ * @returns An array of objects, each including the ID key-value pair and the dynamically added key-value pair.
  */
-export const AddIdObjectInArray = (data: string, arr: any[], key: string) => {
+const AddIdObjectInArrayGeneric = (idKey: string, idValue: any, arr: any[], key: string) => {
   const result: any[] = []; // Initialize an empty array to store the constructed objects.
 
   arr.forEach((element) => {
-    const obj: any = { sjId: data }; // Create an object with the fixed key `sjId` and its value.
+    const obj: any = { [idKey]: idValue }; // Create an object with the fixed ID key and its value.
     obj[key] = element; // Dynamically assign the value to the specified key.
     result.push(obj); // Add the object to the result array.
   });
@@ -38,20 +39,26 @@ export const AddIdObjectInArray = (data: string, arr: any[], key: string) => {
   return result; // Return the array of constructed objects.
 };
 
-export const AddIdObjectInArrayPosts = (
-  data: string,
-  arr: any[],
-  key: string
-) => {
-  const result: any[] = []; // Initialize an empty array to store the constructed objects.
+/**
+ * Constructs an array of objects for posts, each containing a specified key-value pair and additional data.
+ * @param data - The value to associate with the `pId` key in each object.
+ * @param arr - The array whose elements will be added as values for the specified key.
+ * @param key - The key to which each array element will be assigned in the objects.
+ * @returns An array of objects, each including `pId` and the dynamically added key-value pair.
+ */
+export const AddIdObjectInArrayPosts = (data: string, arr: any[], key: string) => {
+  return AddIdObjectInArrayGeneric('pId', data, arr, key);
+};
 
-  arr.forEach((element) => {
-    const obj: any = { pId: data }; // Create an object with the fixed key `sjId` and its value.
-    obj[key] = element; // Dynamically assign the value to the specified key.
-    result.push(obj); // Add the object to the result array.
-  });
-
-  return result; // Return the array of constructed objects.
+/**
+ * Constructs an array of objects for job positions details, each containing a specified key-value pair and additional data.
+ * @param data - The value to associate with the `pjpId` key in each object.
+ * @param arr - The array whose elements will be added as values for the specified key.
+ * @param key - The key to which each array element will be assigned in the objects.
+ * @returns An array of objects, each including `pjpId` and the dynamically added key-value pair.
+ */
+export const AddIdObjectInArrayPostsJobPositionsDetails = (data: number, arr: any[], key: string) => {
+  return AddIdObjectInArrayGeneric('pjpId', data, arr, key);
 };
 
 /**

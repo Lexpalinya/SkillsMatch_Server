@@ -31,7 +31,7 @@ export type TJobPositionsDetails = {
   jpId: string;
   amount: number;
   detail: string;
-  sId: string[];
+  sId?: string[];
 };
 
 export type TPostCreateDTU = Omit<
@@ -51,4 +51,24 @@ export type TPostCreateDTU = Omit<
   images: string[];
 };
 
-export type TPostUpdaateDTU = Partial<Omit<TPostCreateDTU, "images">>;
+export type TPostsUpdaateDTU = Partial<
+  Omit<TPostsDTU, "id" | "isActive" | "createdAt" | "updatedAt">
+>;
+
+export type TPostsUpdateBodyDTU = Partial<
+  Omit<
+    TPostsDTU,
+    | "images"
+    | "id"
+    | "isActive"
+    | "createdAt"
+    | "updatedAt"
+    | "visible"
+    | "startSalary"
+    | "endSalary"
+  >
+> & {
+  visible?: string | boolean;
+  startSalary?: string | number;
+  endSalary?: string | number;
+};

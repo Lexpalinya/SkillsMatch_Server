@@ -1,7 +1,15 @@
 import { TSet } from "../types/utils/elysiaCustom.typs";
-
 import { EMessage } from "./message";
 
+/**
+ * Generates a success response.
+ * @param set - The response object to set the status code.
+ * @param statusCode - The HTTP status code (default is 200).
+ * @param message - The success message (default is an empty object).
+ * @param data - The data to include in the response (default is an empty object).
+ * @param error - The error details to include in the response (default is an empty object).
+ * @returns An object representing the success response.
+ */
 export const ResSucess = ({
   set,
   statusCode = 200,
@@ -24,6 +32,15 @@ export const ResSucess = ({
   };
 };
 
+/**
+ * Generates a failure response.
+ * @param set - The response object to set the status code.
+ * @param statusCode - The HTTP status code (default is 400).
+ * @param message - The failure message (default is an empty object).
+ * @param data - The data to include in the response (default is an empty object).
+ * @param error - The error details to include in the response (default is an empty object).
+ * @returns An object representing the failure response.
+ */
 export const ResFail = ({
   set,
   statusCode = 400,
@@ -46,6 +63,14 @@ export const ResFail = ({
   };
 };
 
+/**
+ * Generates a server error response (HTTP 500).
+ * @param set - The response object to set the status code.
+ * @param message - The error message (default is an empty object).
+ * @param data - The data to include in the response (default is an empty object).
+ * @param error - The error details to include in the response (default is an empty object).
+ * @returns An object representing the server error response.
+ */
 export const ResFail500 = ({
   set,
   message = {},
@@ -53,7 +78,6 @@ export const ResFail500 = ({
   error = {},
 }: {
   set: TSet;
-
   message?: any;
   data?: any;
   error?: any;

@@ -7,9 +7,9 @@ import { enviroment, SERVER_PORT } from "./config/api.config";
 import redis from "./DB/redis";
 import { IndexRouter } from "./routers/index.router";
 
-
 const app = new Elysia()
 
+  // Enable CORS with specific settings
   .use(
     cors({
       credentials: true,
@@ -18,12 +18,14 @@ const app = new Elysia()
     })
   )
 
+  // Enable logging with different levels based on environment
   .use(
     logger({
       level: enviroment === "deployment" ? "info" : "debug",
     })
   )
 
+  // Enable Swagger for API documentation
   .use(
     swagger({
       documentation: {
@@ -35,20 +37,25 @@ const app = new Elysia()
     })
   )
 
+  // Health check endpoint
   .get("/health", ({}) => {
     return { status: "ok", message: "server ok" };
   })
 
+  // Use the main router for handling routes
   .use(IndexRouter)
+
+  // Handle all other routes with a 400 status code
   .all("*", ({ set }) => {
     set.status = 400;
     return { error: "Not found" };
   });
+
+// Clear Redis database
 await redis.flushdb();
 
-
-
+// Start the server and check database connection
 app.listen(SERVER_PORT, async () => {
-  console.log("server in running on port", app.server?.url.href);
+  console.log("server is running on port", app.server?.url.href);
   await checkConnectionDATABASE();
 });

@@ -2,6 +2,7 @@ import prisma from "../DB/prismaClient";
 import redis from "../DB/redis";
 import { CacheOptions } from "../types/utils/cache.type";
 
+// Fetch data from cache or database
 export const CacheData = async ({
   key,
   model,
@@ -17,7 +18,7 @@ export const CacheData = async ({
     if (cachedData) {
       return JSON.parse(cachedData);
     }
- 
+
     // Ensure the `model` is a valid Prisma model
     const data = await (prisma[model] as any).findMany({
       where,
@@ -36,6 +37,7 @@ export const CacheData = async ({
   }
 };
 
+// Fetch data by ID from cache or database
 export const CacheDataFindById = async <T>({
   key,
   model,
@@ -65,11 +67,12 @@ export const CacheDataFindById = async <T>({
 
     return result;
   } catch (error) {
-    console.error("CachDataFindById Error:", error);
+    console.error("CacheDataFindById Error:", error);
     return null; // Graceful fallback
   }
 };
 
+// Fetch data by ID from cache or database without checking isActive
 export const CacheDataFindByIdNotIsActive = async <T>({
   key,
   model,
@@ -93,11 +96,12 @@ export const CacheDataFindByIdNotIsActive = async <T>({
 
     return result;
   } catch (error) {
-    console.error("CachDataFindById Error:", error);
+    console.error("CacheDataFindById Error:", error);
     return null; // Graceful fallback
   }
 };
 
+// Search data in cache or database
 export const CacheDataSearch = async <T>({
   key,
   model,
@@ -128,11 +132,12 @@ export const CacheDataSearch = async <T>({
 
     return result;
   } catch (error) {
-    console.error("CachDataSearch Error:", error);
+    console.error("CacheDataSearch Error:", error);
     return null; // Graceful fallback
   }
 };
 
+// Search data in cache or database without checking isActive
 export const CacheDataSearchNotIsActive = async <T>({
   key,
   model,
@@ -158,11 +163,12 @@ export const CacheDataSearchNotIsActive = async <T>({
 
     return result;
   } catch (error) {
-    console.error("CachDataSearch Error:", error);
+    console.error("CacheDataSearch Error:", error);
     return null; // Graceful fallback
   }
 };
 
+// Filter data in cache or database
 export const CacheDataFilter = async <T>({
   key,
   model,
@@ -192,10 +198,12 @@ export const CacheDataFilter = async <T>({
 
     return result;
   } catch (error) {
-    console.error("CachDataSearch Error:", error);
+    console.error("CacheDataSearch Error:", error);
     return null; // Graceful fallback
   }
 };
+
+// Remove cache by key
 export const RemoveCache = async (key: string) => {
   const keys: string[] = await redis.keys(key + "*");
   if (keys.length > 0) {
@@ -206,6 +214,7 @@ export const RemoveCache = async (key: string) => {
   }
 };
 
+// Add data to cache
 export const CacheDataAdd = async <T>(
   key: string,
   newData: T,
@@ -225,6 +234,7 @@ export const CacheDataAdd = async <T>(
   }
 };
 
+// Update data in cache
 export const CacheDataUpdate = async <T extends { id: string }>(
   key: string,
   updateData: T,
@@ -241,6 +251,7 @@ export const CacheDataUpdate = async <T extends { id: string }>(
   }
 };
 
+// Delete data from cache
 export const CacheDataDelete = async <T extends { id: string }>(
   key: string,
   idToDelete: string,

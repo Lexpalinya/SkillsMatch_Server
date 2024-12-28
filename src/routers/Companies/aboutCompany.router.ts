@@ -79,7 +79,7 @@ export const AboutCompanyRouter = (app: Elysia) => {
       .put(
         "/image/:id",
         ({ body, set, params }) =>
-          aboutCompanyController.UpdateDocImage({ body, set, params }),
+          aboutCompanyController.UpdateImage({ body, set, params }),
         {
           beforeHandle: [auth],
           body: t.Object({
