@@ -25,7 +25,7 @@ import { EducationLevelService } from "../../services/Combo/eductionLevel.servic
 import { EducationalInstitutionsService } from "../../services/Combo/educationInstitustions.service";
 import { FacultyService } from "../../services/Combo/facultys.service";
 import { StudyCourseService } from "../../services/Combo/studyCourse.service";
-import { AddIdObjectInArray, DeduplicateArray } from "../../utils/controArrary";
+import { AddIdObjectInArrayPosts, DeduplicateArray } from "../../utils/controArrary";
 import { TSkillsJobberLanguageCreateDTU } from "../../types/Jobber/skillsJobberLanguage.type";
 import { TSkillsJobberSkillsCreateDTU } from "../../types/Jobber/skillsJobberSkills.type";
 import { TSkillsJobberJobPositionsCreateDTU } from "../../types/Jobber/skillsJobberJobPositions.type";
@@ -179,14 +179,14 @@ export class SkillsJobbersController {
       const skillJobber = await this.SJService.Create(createData);
 
       const SJLanguageData: TSkillsJobberLanguageCreateDTU[] =
-        AddIdObjectInArray(skillJobber.id, body.languages, "lId");
-      const SJSkilsData: TSkillsJobberSkillsCreateDTU[] = AddIdObjectInArray(
+        AddIdObjectInArrayPosts(skillJobber.id, body.languages, "lId");
+      const SJSkilsData: TSkillsJobberSkillsCreateDTU[] = AddIdObjectInArrayPosts(
         skillJobber.id,
         body.skills,
         "sId"
       );
       const SJSJobPositionData: TSkillsJobberJobPositionsCreateDTU[] =
-        AddIdObjectInArray(skillJobber.id, body.jobPositions, "jpId");
+        AddIdObjectInArrayPosts(skillJobber.id, body.jobPositions, "jpId");
 
       const data = await Promise.all([
         this.SJJobPositionsService.CreateMany(SJSJobPositionData),

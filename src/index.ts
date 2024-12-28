@@ -7,6 +7,7 @@ import { enviroment, SERVER_PORT } from "./config/api.config";
 import redis from "./DB/redis";
 import { IndexRouter } from "./routers/index.router";
 
+
 const app = new Elysia()
 
   // Enable CORS with specific settings
