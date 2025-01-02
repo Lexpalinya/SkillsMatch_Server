@@ -105,7 +105,7 @@ export class PostsJobPositionsDetailsService {
   }
 
   // Find an existing job position detail by post ID and job position ID
-  async FindAlready({ pId, jpId }: TPostJobPositionsDetailsCreateDTU) {
+  async FindAlready({ pId, jpId }: { pId: string; jpId: string }) {
     // Fetch job position details from cache or database
     const result: TPostJobPositionsDetailsDTU[] = await CacheData({
       key: this.keys,

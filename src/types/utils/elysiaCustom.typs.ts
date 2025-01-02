@@ -37,3 +37,5 @@ export type TParams = {
 };
 
 export type TParams_ = TParams & { _id: string };
+
+export type TParams__ = TParams_ & { _ids: string };

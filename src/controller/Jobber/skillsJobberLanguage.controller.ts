@@ -81,7 +81,7 @@ export class SkillsJobberLanguageController {
       return ResSucess({
         set,
         statusCode: 200,
-        message: `${EMessage.SUCCESS_UPDATE} ${this.keysSJ}`,
+        message: `${EMessage.SUCCESS_UPDATE_ADD} ${this.keysSJ}`,
         data: updateData,
       });
     } catch (error) {

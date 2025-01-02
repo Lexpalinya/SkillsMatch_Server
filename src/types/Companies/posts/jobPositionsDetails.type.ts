@@ -10,7 +10,7 @@ export type TPostJobPositionsDetailsCreateDTU = Omit<
 export type TPostJobPositionsDetailsCreateBodyDTU = Omit<
   TPostJobPositionsDetailsCreateDTU,
   "pId" | "amount"
-> & { amount?: string | number };
+> & { amount?: string | number; sId?: string | string[] };
 
 export type TPostJobPositionsDetailsUpdateDTU = Partial<
   Omit<TPostJobPositionsDetailsCreateDTU, "pId">

@@ -45,7 +45,6 @@ import {
   CacheDataDelete,
   CacheDataUpdate,
 } from "../../../utils/cache.control";
-import { TPostJobPositionsDetailsCreateDTU } from "../../../types/Companies/posts/jobPositionsDetails.type";
 
 export class PostsController {
   private key: string;

@@ -10,4 +10,4 @@ export type TPostFacultysCreateBodyDTU = {
   fId: string;
 };
 
-export type TPostFacultysUpdateDTU = Partial<TPostFacultysCreateDTU>;
+export type TPostFacultysUpdateDTU = TPostFacultysCreateBodyDTU;

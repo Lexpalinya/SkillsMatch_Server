@@ -6,7 +6,6 @@ export type TPostJobPositionDetailsSkillsCreateDTU = {
   sId: string;
   pjpId: number;
 };
-export type TPostJobPositionDetailsSkillsCreateBdoyDTU = { sId: string };
+export type TPostJobPositionDetailsSkillsCreateBodyyDTU = { sId: string };
 
-export type TPostJobPositionDetailsSkillsUpdateDTU =
-  Partial<TPostJobPositionDetailsSkillsCreateDTU>;
+export type TPostJobPositionDetailsSkillsUpdateDTU = { sId: string };
