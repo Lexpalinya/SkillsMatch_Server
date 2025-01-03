@@ -17,7 +17,7 @@ import { PostsJobPositionDetailsSkillsService } from "../../../services/companie
 import { SkillsService } from "../../../services/Combo/skills.service";
 import { PostsJobPositionsDetailsService } from "../../../services/companies/posts/jobPositionDetails.service";
 
-export class PostJobPositionDetailSkillController {
+export class PostsJobPositionsDetailsSkillsController {
   private key: string;
   private keyPJPDS: string;
   private modelPJPDS: keyof PrismaClient;

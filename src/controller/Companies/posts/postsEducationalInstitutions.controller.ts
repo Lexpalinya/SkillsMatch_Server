@@ -13,7 +13,7 @@ import { PostsEductionalInstitutionsService } from "../../../services/companies/
 import { EducationLevelService } from "../../../services/Combo/eductionLevel.service";
 import { TPostEducationalInstitutionsCreateBodyDTU } from "../../../types/Companies/posts/educationalInstitutions.type";
 
-export class PostFacultysController {
+export class PostsEductionalInstitutionsController {
   private key: string;
   private keyPF: string;
   private modelPF: keyof PrismaClient;

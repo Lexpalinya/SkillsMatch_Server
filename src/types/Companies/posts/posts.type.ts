@@ -14,12 +14,18 @@ export type TPostsCreateBodyDTU = Omit<
   | "startSalary"
   | "endSalary"
   | "endDate"
+  | "checkInTime"
+  | "checkOutTime"
 > & {
   gpa?: string | number;
-  endDate?: string;
+  workDate?: string | string[];
+  workDay: string[];
+  endDate?: string | Date;
   images?: File[];
   startSalary?: string | number;
   endSalary?: string | number;
+  checkInTime?: Date | null;
+  checkOutTime?: Date | null;
   languages: string | string[];
   studyCourses: string | string[];
   educationalInstitutions: string | string[];
@@ -44,11 +50,15 @@ export type TPostCreateDTU = Omit<
   | "startSalary"
   | "endSalary"
   | "endDate"
+  | "checkInTime"
+  | "checkOutTime"
 > & {
   startSalary: number | null;
   endSalary: number | null;
   endDate: Date | null;
   images: string[];
+  checkInTime?: Date | null;
+  checkOutTime?: Date | null;
 };
 
 export type TPostsUpdaateDTU = Partial<
@@ -60,15 +70,19 @@ export type TPostsUpdateBodyDTU = Partial<
     TPostsDTU,
     | "images"
     | "id"
+    | "gpa"
     | "isActive"
     | "createdAt"
     | "updatedAt"
     | "visible"
     | "startSalary"
     | "endSalary"
+    | "workDay"
   >
 > & {
   visible?: string | boolean;
   startSalary?: string | number;
   endSalary?: string | number;
+  gpa?: string | number;
+  workDate?: string | string[];
 };

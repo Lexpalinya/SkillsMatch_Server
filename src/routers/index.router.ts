@@ -15,6 +15,7 @@ import { JobberRouter } from "./Jobber/jobber.router";
 import { CompaniesRouter } from "./Companies/companies.router";
 import { SkillsJobberRouter } from "./Jobber/skillsJobber.router";
 import { AboutCompanyRouter } from "./Companies/aboutCompany.router";
+import { PostsRouter } from "./Companies/posts/posts.router";
 
 export const IndexRouter = (app: Elysia) => {
   return app.group(EAPI, (app) =>
@@ -33,5 +34,6 @@ export const IndexRouter = (app: Elysia) => {
       .use(CompaniesRouter)
       .use(SkillsJobberRouter)
       .use(AboutCompanyRouter)
+      .use(PostsRouter)
   );
 };

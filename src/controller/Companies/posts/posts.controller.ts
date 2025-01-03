@@ -90,7 +90,7 @@ export class PostsController {
       body.educationalInstitutions = DeduplicateArray(
         converStringToArray(body.educationalInstitutions)
       );
-
+      if (body.workDate) body.workDate = converStringToArray(body.workDate);
       // Convert strings to float
       if (body.gpa) body.gpa = converStringToFloat(body.gpa);
       if (body.startSalary)
@@ -152,8 +152,8 @@ export class PostsController {
         endDate: body.endDate ? new Date(body.endDate) : null,
         currency: body.currency,
         workDay: body.workDay,
-        checkInTime: body.checkInTime,
-        checkOutTime: body.checkOutTime,
+        checkInTime: body.checkInTime ?? null,
+        checkOutTime: body.checkOutTime ?? null,
         gpa: Number(body.gpa),
         startSalary:
           body.startSalary !== undefined ? Number(body.startSalary) : null,
@@ -399,7 +399,7 @@ export class PostsController {
   }
 
   // Find many posts
-  async FindMany({ set }: { set: TSet }) {
+  async SelectAll({ set }: { set: TSet }) {
     try {
       // Fetch all posts
       const result = await this.pService.FindMany();

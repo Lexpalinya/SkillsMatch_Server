@@ -13,7 +13,7 @@ import { PostsLanguagesService } from "../../../services/companies/posts/languag
 import { LanguagesService } from "../../../services/Combo/languages.service";
 import { TPostLanguageCreateBodyDTU } from "../../../types/Companies/posts/language.type";
 
-export class PostFacultysController {
+export class PostLanguageController {
   private key: string;
   private keyPL: string;
   private modelPL: keyof PrismaClient;
