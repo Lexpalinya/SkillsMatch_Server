@@ -35,8 +35,9 @@ export class UsersController {
     jwt_refresh: any;
   }) {
     try {
+      const today = new Date().toISOString().split("T")[0];
       if (!body.username && body.role === "jobber") {
-        body.username = "Jobber-" + generateRandomCode(8);
+        body.username = "Jobber-" + generateRandomCode(6) + today;
       }
       if (!body.username && body.role !== "jobber") {
         return ResFail({
@@ -45,7 +46,7 @@ export class UsersController {
         });
       }
       const promise = [
-        this.userService.findAlready("email", { email: body.emal }),
+        this.userService.findAlready("email", { email: body.email }),
         this.userService.findAlready("phoneNumber", {
           phoneNumber: body.phoneNumber,
         }),
@@ -56,6 +57,7 @@ export class UsersController {
       const [userEmailExists, userPhoneNumberExists, usernameExists] =
         await Promise.all(promise);
 
+      console.log("userEmail", userEmailExists);
       if (userEmailExists || userPhoneNumberExists || usernameExists) {
         return ResFail({
           set,
@@ -97,21 +99,21 @@ export class UsersController {
     }
   }
   async Login({
-    body: { password, email },
+    body: { password, phoneNumber },
     set,
     cookie: { token, tokenRef },
     jwt,
     jwt_refresh,
   }: {
-    body: { password: string; email: string };
+    body: { password: string; phoneNumber: string };
     set: TSet;
     cookie: any;
     jwt: any;
     jwt_refresh: any;
   }) {
     try {
-      const user = await this.userService.findAlready("email", {
-        email,
+      const user = await this.userService.findAlready("phoneNumber", {
+        phoneNumber,
       });
       if (!user) {
         return ResFail({
@@ -139,7 +141,8 @@ export class UsersController {
         role: update.role,
       });
       setAuthCookies(token, tokenRef, result.accessToken, result.refreshToken);
-
+      const [users] = await Promise.all([this.userService.findMany()]);
+      await CacheDataUpdate("users", update, users);
       return ResSucess({
         set,
         data: {
@@ -207,7 +210,8 @@ export class UsersController {
         role: update.role,
       });
       setAuthCookies(token, tokenRef, result.accessToken, result.refreshToken);
-
+      const [users] = await Promise.all([this.userService.findMany()]);
+      await CacheDataUpdate("users", update, users);
       return ResSucess({
         set,
         message: EMessage.SUCCESS_TOKEN_REFRESH,
@@ -216,6 +220,27 @@ export class UsersController {
       return ResFail500({
         set,
         message: `${EMessage.SERVER_ERROR} ${EMessage.ERROR_TOKEN_REFRESH} user `,
+        error: { error },
+      });
+    }
+  }
+  async Logout({
+    set,
+    cookie: { token, tokenRef },
+  }: {
+    set: TSet;
+    cookie: any;
+  }) {
+    try {
+      setAuthCookies(token, tokenRef, "", "");
+      return ResSucess({
+        set,
+        message: EMessage.SUCCESS_LOGOUT,
+      });
+    } catch (error) {
+      return ResFail500({
+        set,
+        message: `${EMessage.SERVER_ERROR} ${EMessage.ERROR_LOGOUT} user `,
         error: { error },
       });
     }
@@ -487,6 +512,7 @@ export class UsersController {
   }) {
     try {
       const _id = query?.id || set.user!.id;
+      console.log("_id", _id);
       const resutl = await this.userService.findOne(_id);
       if (!resutl) {
         return ResFail({

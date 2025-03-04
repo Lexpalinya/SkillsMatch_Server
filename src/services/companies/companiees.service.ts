@@ -22,6 +22,9 @@ export class CompaniesService {
     typeOrganinzations: {
       select: { id: true, name: true, visible: true, isActive: true },
     },
+    users: {
+      select: { profile: true },
+    },
   };
 
   constructor() {

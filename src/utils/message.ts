@@ -40,6 +40,8 @@ export const EMessage = {
   ERROR_TOKEN_INVALID: "Invalid authentication token",
   SUCCESS_TOKEN_REFRESH: "Token refreshed successfully",
   ERROR_TOKEN_REFRESH: "Failed to refresh token",
+  ERROR_LOGOUT: "Failed to logout",
+  SUCCESS_LOGOUT: "Logout successful",
   ERROR_TOKEN_GENERATION: "Error generating authentication token",
   UNAUTHORIZED: "Unauthorized",
   // User-related Messages

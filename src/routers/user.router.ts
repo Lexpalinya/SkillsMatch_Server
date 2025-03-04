@@ -40,6 +40,7 @@ export const UserRouter = (app: Elysia) => {
             phoneNumber: t.String(),
             role: t.Enum(EUserRole),
             password: t.String(),
+            username: t.Optional(t.String()),
           }),
         }
       )
@@ -50,12 +51,19 @@ export const UserRouter = (app: Elysia) => {
         {}
       )
       .post(
+        "/logout",
+        async ({ set, cookie }) => UsersControllers.Logout({ set, cookie }),
+        {
+          beforeHandle: [auth],
+        }
+      )
+      .post(
         "/login",
         async ({ body, jwt, jwt_refresh, set, cookie }) =>
           UsersControllers.Login({ body, jwt, jwt_refresh, set, cookie }),
         {
           body: t.Object({
-            email: t.String({ format: "email" }),
+            phoneNumber: t.String(),
             password: t.String(),
           }),
         }
