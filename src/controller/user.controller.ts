@@ -512,6 +512,7 @@ export class UsersController {
   }) {
     try {
       const _id = query?.id || set.user!.id;
+      console.log("img", img);
       console.log("_id", _id);
       const resutl = await this.userService.findOne(_id);
       if (!resutl) {

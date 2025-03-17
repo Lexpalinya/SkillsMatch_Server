@@ -15,7 +15,6 @@ export const UserRouter = (app: Elysia) => {
   const UsersControllers = new UsersController();
   return app.group("/users", (app) =>
     app
-
       .use(
         jwt({
           secret: JWT_SECRET_KEY!,
@@ -106,7 +105,6 @@ export const UserRouter = (app: Elysia) => {
               email: t.Optional(t.String({ format: "email" })),
               phoneNumber: t.Optional(t.String()),
               username: t.Optional(t.String()),
-              password: t.Optional(t.String()),
               visible: t.Optional(t.BooleanString()),
               block: t.Optional(t.BooleanString()),
               role: t.Optional(t.Enum(EuserRole)),
